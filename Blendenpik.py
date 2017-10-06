@@ -9,6 +9,7 @@ import xalglib
 import scipy.sparse as spmat
 import scipy.fftpack as fft
 import scipy.linalg as lalg
+import scipy.sparse.linalg as splalg
 import ctypes
 import time
 import math
@@ -30,6 +31,9 @@ class Blendenpik(object):
         self.gamma = 1.5 #from 1.5 to 10
         
         A = spmat.rand(20000,10000, density = 0.001, format = "lil")
+        x_true = np.random.rand(10000)
+        b = A * x_true
+        
         self.m_tilde = math.ceil(A.shape[0]/1000)*1000
         
         if self.m_tilde > A.shape[0]:
@@ -42,16 +46,17 @@ class Blendenpik(object):
         D = spmat.diags(diag_D)
         
         M = self.DCT2D(D*M)
-        diag_S = np.random.choice(2, self.m_tilde, p=[1- self.gamma*A.shape[1]/self.m_tilde,self.gamma*A.shape[1]/self.m_tilde])
-        S = spmat.diags(diag_S)
-        SM = S*M
+        sampled_rate = min(1, self.gamma*A.shape[1]/self.m_tilde)
+
+        sampled_rows = np.random.choice(self.m_tilde, int(sampled_rate * self.m_tilde))
+        sampledM = M[sampled_rows,:]
+        Q, R = np.linalg.qr(sampledM)
     
-        #Q, R = lalg.qr(SM)
-        Q, R = np.linalg.qr(SM)
+        z = splalg.lsqr(A * np.linalg.inv(R), b)[0]
+        x = R * z
+        
+        print("Residual (L2-norm):", np.linalg.norm(x-x_true,ord =2))
         print(time.process_time())
-        
-        
-        
         
 
     def DCT2D(self, x):
