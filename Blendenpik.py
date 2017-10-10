@@ -102,8 +102,8 @@ class Blendenpik(object):
         def fhtr1d(self, x, n):
             '''
             This is a wrapper for fhtr1d in ALglib.
-            Although xalglib.fhtr1d has python interface, the interface can receive python list.
-            This wrapper allows Alglib to receive and return numpy array.
+            Although xalglib.fhtr1d has python interface, the interface receives only a python list.
+            This wrapper allows Alglib to receive and return a numpy array.
             '''
             _error_msg = ctypes.c_char_p(0)
             __c = ctypes.c_void_p(0)
