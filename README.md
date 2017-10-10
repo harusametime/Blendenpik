@@ -21,7 +21,7 @@ blendenpik = Blendenpik(A, b)
 x = blendenpik.solve()
 ```
 
-`A' is a scipy sparse matrix or numpy matrix, and `b` is a numpy array. You can specify `gamma` for sampling rate from `A`.
+`A` is a scipy sparse matrix or numpy matrix, and `b` is a numpy array. You can specify `gamma` for sampling rate from `A`.
 
 # Result
 
