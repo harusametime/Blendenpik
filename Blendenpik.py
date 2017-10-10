@@ -4,22 +4,6 @@ Created on 2017/10/05
 @author: samejima
 '''
 
-import numpy as np
-
-import scipy.sparse as spmat
-import scipy.fftpack as fft
-import scipy.linalg as lalg
-import scipy.sparse.linalg as splalg
-import ctypes
-import time
-import math
-
-#
-import xalglib
-import sparseqr
-
-
-
 class Blendenpik(object):
     '''
     classdocs
